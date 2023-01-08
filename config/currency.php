@@ -1,5 +1,6 @@
 <?php
+
 return [
-	'register_routes' => true,
-	'float_scale' => 10,
+    'register_routes' => true,
+    'float_scale' => 10,
 ];

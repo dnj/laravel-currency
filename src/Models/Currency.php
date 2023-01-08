@@ -11,12 +11,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Currency extends Model implements ICurrency
 {
+    use CurrencyTrait;
+    use HasFactory;
+
     protected static function newFactory()
     {
         return CurrencyFactory::new();
     }
-
-    use CurrencyTrait, HasFactory;
 
     public function getID(): int
     {

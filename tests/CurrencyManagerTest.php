@@ -14,7 +14,6 @@ class CurrencyManagerTest extends TestCase
         return $this->app->make(ICurrencyManager::class);
     }
 
-
     public function testCreate()
     {
         $USD = $this->getManager()->create('USD', 'US Dollar', '$', '', RoundingBehaviour::CEIL, 2);

@@ -15,81 +15,90 @@ class CurrencyFactory extends Factory
 
     public function definition()
     {
-
         return [
-			'code' => fake()->currencyCode(),
+            'code' => fake()->currencyCode(),
             'title' => fake()->word(),
-            'prefix' => "",
-            'suffix' => "",
+            'prefix' => '',
+            'suffix' => '',
             'rounding_behaviour' => fake()->randomElement([RoundingBehaviour::CEIL, RoundingBehaviour::ROUND, RoundingBehaviour::FLOOR]),
             'rounding_precision' => fake()->numberBetween(-2, 2),
         ];
     }
 
-    public function withCode(string $code) {
+    public function withCode(string $code)
+    {
         return $this->state(fn () => [
             'code' => $code,
         ]);
     }
 
-    public function withTitle(string $title) {
+    public function withTitle(string $title)
+    {
         return $this->state(fn () => [
             'title' => $title,
         ]);
     }
 
-    public function withPrefix(string $prefix) {
+    public function withPrefix(string $prefix)
+    {
         return $this->state(fn () => [
             'prefix' => $prefix,
         ]);
     }
 
-    public function withSuffix(string $suffix) {
+    public function withSuffix(string $suffix)
+    {
         return $this->state(fn () => [
             'suffix' => $suffix,
         ]);
     }
 
-    public function withCeilingBehaviour() {
+    public function withCeilingBehaviour()
+    {
         return $this->state(fn () => [
             'rounding_behaviour' => RoundingBehaviour::CEIL,
         ]);
     }
 
-    public function withFlooringBehaviour() {
+    public function withFlooringBehaviour()
+    {
         return $this->state(fn () => [
             'rounding_behaviour' => RoundingBehaviour::FLOOR,
         ]);
     }
 
-    public function withRoundingBehaviour(RoundingBehaviour $behaviour = RoundingBehaviour::ROUND) {
+    public function withRoundingBehaviour(RoundingBehaviour $behaviour = RoundingBehaviour::ROUND)
+    {
         return $this->state(fn () => [
             'rounding_behaviour' => $behaviour,
         ]);
     }
 
-    public function withPrecision(int $precision) {
+    public function withPrecision(int $precision)
+    {
         return $this->state(fn () => [
             'rounding_precision' => $precision,
         ]);
     }
 
-    public function asUSD() {
+    public function asUSD()
+    {
         return $this->state(fn () => [
-            'code' => "USD",
-            'title' => "US Dollar",
-            'prefix' => "$",
-            'suffix' => "",
+            'code' => 'USD',
+            'title' => 'US Dollar',
+            'prefix' => '$',
+            'suffix' => '',
             'rounding_precision' => 2,
         ]);
     }
 
-    public function asEUR() {
+    public function asEUR()
+    {
         return $this->state(fn () => [
-            'code' => "EUR",
-            'title' => "Euro",
-            'prefix' => "€",
-            'suffix' => "",
+            'code' => 'EUR',
+            'title' => 'Euro',
+            'prefix' => '€',
+            'suffix' => '',
             'rounding_precision' => 2,
         ]);
     }
