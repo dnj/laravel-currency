@@ -3,7 +3,8 @@
 	"license": "MIT",
 	"autoload": {
 		"psr-4": {
-			"dnj\\Currency\\": "src/"
+			"dnj\\Currency\\": "src/",
+			"dnj\\Currency\\Database\\Factories\\": "database/factories/"
 		}
 	},
 	"autoload-dev": {

@@ -14,20 +14,16 @@ class CurrencyManagerTest extends TestCase
         return $this->app->make(ICurrencyManager::class);
     }
 
-    protected function createUSD(): Currency
-    {
-        return $this->getManager()->create('USD', 'US Dollar', '$', '', RoundingBehaviour::CEIL, 2);
-    }
 
     public function testCreate()
     {
-        $USD = $this->createUSD();
+        $USD = $this->getManager()->create('USD', 'US Dollar', '$', '', RoundingBehaviour::CEIL, 2);
         $this->assertInstanceOf(Currency::class, $USD);
     }
 
     public function testFirstByCode()
     {
-        $USD = $this->createUSD();
+        $USD = Currency::factory()->asUSD()->create();
         $USDCopy = $this->getManager()->firstByCode('USD');
         $this->assertSame($USD->getID(), $USDCopy->getID());
     }
@@ -35,29 +31,29 @@ class CurrencyManagerTest extends TestCase
     public function testFindByCode()
     {
         $this->assertSame(0, $this->getManager()->findByCode('USD')->count());
-        $USD = $this->createUSD();
+        $USD = Currency::factory()->asUSD()->create();
         $this->assertSame(1, $this->getManager()->findByCode('USD')->count());
-        $USD2 = $this->getManager()->create('USD', 'US Dollar From other source', '$', '', RoundingBehaviour::CEIL, 2);
+        $USD2 = Currency::factory()->asUSD()->withTitle('US Dollar From other source')->create();
         $this->assertSame(2, $this->getManager()->findByCode('USD')->count());
     }
 
     public function testDelete()
     {
-        $USD = $this->createUSD();
+        $USD = Currency::factory()->asUSD()->create();
         $this->getManager()->delete($USD->getID());
         $this->assertSame(0, $this->getManager()->findByCode('USD')->count());
     }
 
     public function testGetByID()
     {
-        $USD = $this->createUSD();
+        $USD = Currency::factory()->asUSD()->create();
         $USDCopy = $this->getManager()->getByID($USD->getID());
         $this->assertSame($USD->getCode(), $USDCopy->getCode());
     }
 
     public function testGetAll()
     {
-        $USD = $this->createUSD();
+        Currency::factory()->asUSD()->create();
         $all = $this->getManager()->getAll();
         $this->assertSame(1, $all->count());
     }
