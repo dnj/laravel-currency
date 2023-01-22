@@ -96,6 +96,13 @@ class ExchangeManagerTest extends TestCase
         $this->assertSame($rate->getRate()->mul(2)->getValue(), $result->getValue());
     }
 
+    public function testConvertWithSameCurrencies()
+    {
+        $USD = $this->createUSD();
+        $result = $this->getManager()->convert(2, $USD->getID(), $USD->getID(), false);
+        $this->assertSame(2, $result->getValue());
+    }
+
     public function testConvertFormat()
     {
         $USD = $this->createUSD();
@@ -103,5 +110,16 @@ class ExchangeManagerTest extends TestCase
         $rate = $this->createRate($EUR, $USD);
         $result = $this->getManager()->convertFormat(2, $EUR, $USD, false);
         $this->assertSame('€ '.$rate->getRate()->mul(2)->getValue(), $result);
+    }
+
+    public function testConvertFormatWithSameCurrencies()
+    {
+        $USD = $this->createUSD();
+        $result = $this->getManager()->convertFormat(2, $USD->getID(), $USD->getID(), false);
+        $this->assertSame('$ 2', $result);
+        $result = $this->getManager()->convertFormat(2, $USD, $USD->getID(), false);
+        $this->assertSame('$ 2', $result);
+        $result = $this->getManager()->convertFormat(2, $USD->getID(), $USD, false);
+        $this->assertSame('$ 2', $result);
     }
 }

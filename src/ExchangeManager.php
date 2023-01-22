@@ -22,12 +22,9 @@ class ExchangeManager implements IExchangeManager
 
     public function createRate(int|ICurrency $counter, int|ICurrency $base, INumber $rate): ExchangeRate
     {
-        if ($counter instanceof ICurrency and !$counter instanceof Currency) {
-            throw new TypeError('counter is not instance of '.Currency::class);
-        }
-        if ($base instanceof ICurrency and !$base instanceof Currency) {
-            throw new TypeError('base is not instance of '.Currency::class);
-        }
+        $this->ensureCurrencyModelType($counter);
+        $this->ensureCurrencyModelType($base);
+
         $model = new ExchangeRate();
         $model->base_id = is_object($base) ? $base->getID() : $base;
         $model->counter_id = is_object($counter) ? $counter->getID() : $counter;
@@ -55,18 +52,11 @@ class ExchangeManager implements IExchangeManager
 
     public function getLastRate(int|ICurrency $counter, int|ICurrency $base): ExchangeRate
     {
-        if ($counter instanceof ICurrency) {
-            if (!$counter instanceof Currency) {
-                throw new TypeError('counter is not instance of '.Currency::class);
-            }
-            $counter = $counter->getID();
-        }
-        if ($base instanceof ICurrency) {
-            if (!$base instanceof Currency) {
-                throw new TypeError('base is not instance of '.Currency::class);
-            }
-            $base = $base->getID();
-        }
+        $this->ensureCurrencyModelType($counter);
+        $this->ensureCurrencyModelType($base);
+    
+        $counter = $this->getCurrencyId($counter);
+        $base = $this->getCurrencyId($base);
 
         return ExchangeRate::query()
             ->where('base_id', $base)
@@ -80,23 +70,22 @@ class ExchangeManager implements IExchangeManager
      */
     public function getRates(int|ICurrency $counter, int|ICurrency $base): iterable
     {
-        if ($counter instanceof ICurrency) {
-            if (!$counter instanceof Currency) {
-                throw new TypeError('counter is not instance of '.Currency::class);
-            }
-            $counter = $counter->getID();
-        }
-        if ($base instanceof ICurrency) {
-            if (!$base instanceof Currency) {
-                throw new TypeError('base is not instance of '.Currency::class);
-            }
-            $base = $base->getID();
-        }
+        $this->ensureCurrencyModelType($counter);
+        $this->ensureCurrencyModelType($base);
+
+        $counter = $this->getCurrencyId($counter);
+        $base = $this->getCurrencyId($base);
 
         return ExchangeRate::query()
             ->where('base_id', $base)
             ->where('counter_id', $counter)
             ->orderByDesc('id')
             ->get();
+    }
+
+    public function ensureCurrencyModelType(int|ICurrency $currency): void {
+        if ($currency instanceof ICurrency and !$currency instanceof Currency) {
+            throw new TypeError('currency is not instance of ' . Currency::class);
+        }
     }
 }
