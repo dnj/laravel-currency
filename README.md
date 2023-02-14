@@ -32,7 +32,7 @@ Laravel uses Package Auto-Discovery, so doesn't require you to manually add the 
 #### Copy the package config to your local config with the publish command:
 
 ```shell
-php artisan vendor:publish --provider="dnj\Currency"
+php artisan vendor:publish --provider="dnj\CurrencyServiceProvider" --tag="config"
 ```
 
 #### Config file
